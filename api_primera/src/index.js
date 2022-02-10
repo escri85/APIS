@@ -7,8 +7,8 @@ const app = express();
 const PORT = process.env.PORT || 4000;
 
 //middleware
+app.use(express.json())
 app.use('/api', userRoutes)
-
 
 const callback = () => {
   console.log(`servidor arrancado en el puerto ${PORT}`);
