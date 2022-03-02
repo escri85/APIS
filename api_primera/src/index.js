@@ -1,25 +1,29 @@
 const express = require("express");
-const mongoose = require("mongoose")
-require("dotenv").config()
-const userRoutes = require('./routes/user')
+const mongoose = require("mongoose");
+require("dotenv").config();
 
-const app = express();
-const PORT = process.env.PORT || 4000;
+const userRoutes = require("./routes/user.routes");
+
+const server = express();
+
+const PORT = process.env.PORT || 5000;
+
+const {connectToDb} = require('./config/db')
+connectToDb()
 
 //middleware
-app.use(express.json())
-app.use('/api', userRoutes)
+server.use(express.json());
+server.use("/", userRoutes);
 
 const callback = () => {
   console.log(`servidor arrancado en el puerto ${PORT}`);
 };
 
 //routes
-app.get('/',(req,res)=>{
-res.send('bienvenido a tu servidor')
-})
-//mongo db conection
-mongoose.connect(process.env.MONGO_DB_URI).then(()=>{console.log('estas conectado a la bbdd atlas');}).catch((error)=>{console.error(error)})
+server.get("/", (req, res) => {
+  res.send("bienvenido a tu servidor");
+});
 
 
-app.listen(PORT, callback);
+
+server.listen(PORT, callback);
